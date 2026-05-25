@@ -1,0 +1,27 @@
+[project]
+name = "ml-course"
+version = "1.0.0"
+description = "Curso de Machine Learning para Ingeniería de Software"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "jupyter>=1.0",
+    "ipykernel>=6.28",
+    "xgboost>=2.0",
+    "fastapi>=0.109",
+    "uvicorn>=0.27",
+    "httpx>=0.26",
+    "joblib>=1.3",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.2",
+]
