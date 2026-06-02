@@ -19,7 +19,7 @@ def load_pickle(filename: str):
 @click.command()
 @click.option(
     "--data_path",
-    default="./data/processed",
+    default="data/processed",
     help="Location where the processed NYC taxi trip data was saved"
 )
 def run_optimization(data_path: str):

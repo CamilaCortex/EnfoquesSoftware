@@ -22,6 +22,7 @@ dependencies = [
     "pyarrow>=24.0.0",
     "mlflow>=3.13.0",
     "optuna>=4.9.0",
+    "prefect>=3.7.3",
 ]
 
 [project.optional-dependencies]
