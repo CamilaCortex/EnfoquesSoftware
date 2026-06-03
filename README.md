@@ -1,15 +1,15 @@
 # Curso de Machine Learning para Ingeniería de Software
 
-Aprende Machine Learning de forma práctica: desde los fundamentos hasta desplegar modelos en producción con FastAPI y Docker.
+Aprende Machine Learning de forma práctica: desde los fundamentos matemáticos hasta orquestar y desplegar modelos en producción con MLflow, Prefect, FastAPI y Docker.
 
 ---
 
 ## Información del Curso
 
 - **Nivel**: Básico a intermedio
-- **Duración**: 8 semanas (1 módulo por semana)
+- **Duración**: 8 módulos
 - **Requisitos**: Conocimientos básicos de Python y línea de comandos
-- **Herramientas**: Python 3.10+, uv, scikit-learn, FastAPI, Docker
+- **Herramientas**: Python 3.13, uv, scikit-learn, XGBoost, MLflow, Prefect, FastAPI, Docker
 
 ---
 
@@ -89,16 +89,31 @@ uv run jupyter notebook
 
 ## Contenido del Curso
 
-| Semana | Módulo | Descripción |
-|--------|--------|-------------|
-| 1 | [Introducción al ML](modulo-01-introduccion/) | Qué es ML, tipos de aprendizaje, CRISP-DM, configuración del entorno |
-| 2 | [Python para ML](modulo-02-python-para-ml/) | NumPy, Pandas, análisis exploratorio, álgebra lineal básica |
-| 3 | [Regresión](modulo-03-regresion/) | Regresión lineal, RMSE, regularización, validación |
-| 4 | [Clasificación](modulo-04-clasificacion/) | Regresión logística, importancia de features, encoding |
-| 5 | [Evaluación de Modelos](modulo-05-evaluacion/) | Precision, recall, ROC-AUC, validación cruzada |
-| 6 | [Árboles y Ensambles](modulo-06-arboles-ensambles/) | Decision Trees, Random Forest, XGBoost |
-| 7 | [Despliegue de Modelos](modulo-07-despliegue/) | Serialización, FastAPI, Docker |
-| 8 | [Proyecto Integrador](modulo-08-proyecto/) | Proyecto end-to-end: datos → modelo → API → Docker |
+| Módulo | Carpeta | Descripción |
+|--------|---------|-------------|
+| 00 | [Gestión de Entornos](modulo-00-gestion-entornos-virtuales/) | uv, entornos virtuales, gestión de dependencias |
+| 01 | [Introducción al ML](modulo-01-introduccion/) | Qué es ML, tipos de aprendizaje, CRISP-DM |
+| 02 | [Python para ML](modulo-02-python-para-ml/) | NumPy, Pandas, análisis exploratorio, álgebra lineal |
+| 03 | [Regresión](modulo-03-regresion/) | Regresión lineal, RMSE, regularización, validación |
+| 04 | [Clasificación](modulo-04-clasificacion/) | Regresión logística, importancia de features, encoding |
+| 05 | [Evaluación de Modelos](modulo-05-evaluacion/) | Precision, recall, ROC-AUC, validación cruzada |
+| 06 | [Experiment Tracking](modulo-06-tracking/) | MLflow: tracking de experimentos, model registry |
+| 07 | [Orquestación](modulo-07-orchestration/) | Prefect: pipelines, flows, tasks, scheduling |
+| 08 | [Despliegue](modulo-08-despliegue/) | Serialización, FastAPI, Docker, batch deploy, AWS |
+| — | [Proyecto Integrador](modulo-08-proyecto-integrador/) | Proyecto end-to-end: datos → modelo → API → Docker |
+
+---
+
+## Módulo 08 — Despliegue en detalle
+
+El módulo de despliegue incluye cuatro proyectos prácticos en `modulo-08-despliegue/deploy/`:
+
+| Proyecto | Descripción |
+|----------|-------------|
+| [`intro-dockers/`](modulo-08-despliegue/deploy/intro-dockers/) | App FastAPI con gatitos — introducción a Docker y HTTP |
+| [`web-service/`](modulo-08-despliegue/deploy/web-service/) | API REST de predicción de duración de viajes NYC Taxi |
+| [`batch-deploy/`](modulo-08-despliegue/deploy/batch-deploy/) | Pipeline batch con Prefect: predicciones programadas cada hora |
+| [`web-service-aws/`](modulo-08-despliegue/deploy/web-service-aws/) | Despliegue del servicio en AWS EC2 |
 
 ---
 
@@ -113,15 +128,16 @@ Cada módulo contiene:
 
 ---
 
-## Proyecto Integrador (Semana 8)
+## Proyecto Integrador
 
 El curso culmina con un proyecto donde aplicarás todo lo aprendido:
 
 1. Elegir un problema y dataset
 2. Análisis exploratorio y preparación de datos
-3. Entrenar y evaluar modelos
-4. Crear una API con FastAPI
-5. Contenerizar con Docker
+3. Entrenar y evaluar modelos (con MLflow)
+4. Orquestar el pipeline (con Prefect)
+5. Crear una API con FastAPI
+6. Contenerizar con Docker
 
 ---
 
@@ -133,6 +149,10 @@ El curso culmina con un proyecto donde aplicarás todo lo aprendido:
 | **NumPy / Pandas** | Manipulación de datos |
 | **scikit-learn** | Modelos de ML |
 | **XGBoost** | Gradient boosting |
-| **Matplotlib / Seaborn** | Visualización |
+| **Matplotlib / Seaborn / Plotly** | Visualización |
+| **MLflow** | Experiment tracking y model registry |
+| **Prefect** | Orquestación de pipelines |
+| **Optuna** | Optimización de hiperparámetros |
 | **FastAPI** | API REST para servir modelos |
 | **Docker** | Contenerización y despliegue |
+| **AWS EC2** | Despliegue en nube |
