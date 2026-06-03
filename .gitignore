@@ -4,7 +4,9 @@ __pycache__/
 **my_dir/
 **logs/
 **models/
-
+*.db
+modulo-08-despliegue/deploy/batch-deploy/model
+modulo-08-despliegue/deploy/batch-deploy/data
 # file types
 *.h5
 *.tflite
@@ -26,3 +28,5 @@ __pycache__/
 
 **midterms_evaluations/
 **samples/
+.DS_Store
+*.txt
