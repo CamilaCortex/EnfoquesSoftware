@@ -23,6 +23,7 @@ dependencies = [
     "mlflow>=3.13.0",
     "optuna>=4.9.0",
     "prefect>=3.7.3",
+    "openai>=2.40.0",
 ]
 
 [project.optional-dependencies]
