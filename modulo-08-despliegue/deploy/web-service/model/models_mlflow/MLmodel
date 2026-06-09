@@ -1,4 +1,4 @@
-artifact_path: /Users/mdurango/Downloads/proyectos/MLOps_UdM/03-Orchestration/Prefect-pipelines/mlruns/1/models/m-c2e47bf5cb464d3cb0407f0c9e362857/artifacts
+artifact_path: /Users/mdurango/Downloads/proyectos/machine-learning-zoomcamp/modulo-08-orchestration/00-intro-prefect/01-Prefect-pipelines/mlruns/1/models/m-ba42b057f13047c988d3970ba36247d1/artifacts
 flavors:
   python_function:
     data: model.ubj
@@ -6,17 +6,17 @@ flavors:
       conda: conda.yaml
       virtualenv: python_env.yaml
     loader_module: mlflow.xgboost
-    python_version: 3.11.14
+    python_version: 3.13.12
   xgboost:
     code: null
     data: model.ubj
     model_class: xgboost.core.Booster
     model_format: ubj
     xgb_version: 3.2.0
-mlflow_version: 3.10.1
-model_id: m-c2e47bf5cb464d3cb0407f0c9e362857
-model_size_bytes: 96810
-model_uuid: m-c2e47bf5cb464d3cb0407f0c9e362857
+mlflow_version: 3.13.0
+model_id: m-ba42b057f13047c988d3970ba36247d1
+model_size_bytes: 140881
+model_uuid: m-ba42b057f13047c988d3970ba36247d1
 prompts: null
-run_id: 8b55c7b2b9a4403582cf0e0f1bb407e4
-utc_time_created: '2026-04-07 20:28:28.704307'
+run_id: bf995eb38d604b01bf2294a5ea6a5984
+utc_time_created: '2026-06-03 02:09:34.615016'

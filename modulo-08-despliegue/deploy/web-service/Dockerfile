@@ -9,12 +9,11 @@ COPY pyproject.toml ./
 
 # Instalar dependencias directamente con pip
 RUN pip install --no-cache-dir \
-    fastapi==0.115.0 \
-    uvicorn[standard]==0.32.0 \
-    pydantic==2.9.2 \
-    mlflow==2.17.2 \
-    xgboost==2.1.2 \
-    scikit-learn==1.5.2
+    fastapi>=0.136.3 \
+    uvicorn[standard]>=0.49.0 \
+    mlflow>=3.13.0 \
+    xgboost>=3.2.0 \
+    scikit-learn>=1.4
 
 # Copiar código fuente
 COPY app.py ./

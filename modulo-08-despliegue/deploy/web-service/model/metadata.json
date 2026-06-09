@@ -1,10 +1,10 @@
 {
   "model_name": "nyc-taxi-duration-predictor",
   "version": 2,
-  "run_id": "afefc0f5ecff400dbc08e942b9abb2be",
-  "rmse": 5.477318792625616,
-  "timestamp": "20260407_195321",
-  "model_path": "/Users/mdurango/Downloads/proyectos/MLOps_UdM/03-Orchestration/Prefect-pipelines/models/registered/v2_20260407_195321/models_mlflow/",
-  "preprocessor_path": "/Users/mdurango/Downloads/proyectos/MLOps_UdM/03-Orchestration/Prefect-pipelines/models/registered/v2_20260407_195321/preprocessor",
+  "run_id": "bf995eb38d604b01bf2294a5ea6a5984",
+  "rmse": 5.88659260711971,
+  "timestamp": "20260602_210937",
+  "model_path": "/Users/mdurango/Downloads/proyectos/machine-learning-zoomcamp/modulo-08-orchestration/00-intro-prefect/01-Prefect-pipelines/models/registered/v2_20260602_210937/models_mlflow/",
+  "preprocessor_path": "/Users/mdurango/Downloads/proyectos/machine-learning-zoomcamp/modulo-08-orchestration/00-intro-prefect/01-Prefect-pipelines/models/registered/v2_20260602_210937/preprocessor",
   "mlflow_uri": "models:/nyc-taxi-duration-predictor/2"
 }

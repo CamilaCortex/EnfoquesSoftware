@@ -19,7 +19,7 @@ Deployment con Docker para la API de predicción de duración de viajes.
 Antes de construir la imagen, asegúrate de tener el modelo:
 
 ```bash
-cd /Users/mdurango/Downloads/proyectos/MLOps_UdM/04-Deployment/deploy/web-service
+cd modulo-08-despliegue/deploy/web-service
 
 uv run python copy_model.py
 ```
@@ -223,10 +223,10 @@ docker-compose down
 
 ```bash
 # Tag
-docker tag nyc-taxi-api tu-usuario/nyc-taxi-api:v1
+docker tag nyc-taxi-api tu-usuario/nyc-taxi-api:v2
 
 # Push
-docker push tu-usuario/nyc-taxi-api:v1
+docker push tu-usuario/nyc-taxi-api:v2
 ```
 
 ### **AWS ECS / Azure Container Instances / Google Cloud Run**

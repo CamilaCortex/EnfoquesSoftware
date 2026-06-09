@@ -13,9 +13,8 @@ def copy_model_to_webservice():
     """Copia el último modelo del pipeline a web-service"""
     
     # Rutas
-    project_root = Path(__file__).parent.parent.parent.parent
     # Copiar desde batch-deploy que ya tiene el modelo
-    batch_deploy_model = project_root / "04-Deployment" / "deploy" / "batch-deploy" / "model"
+    batch_deploy_model = Path(__file__).parent.parent / "batch-deploy" / "model"
     webservice_model = Path(__file__).parent / "model"
     
     logging.info("Copiando modelo de batch-deploy a web-service...")

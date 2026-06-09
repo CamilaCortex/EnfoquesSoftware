@@ -14,7 +14,7 @@
 ### **Paso 1: Copiar el Modelo**
 
 ```bash
-cd /MLOps_UdM/04-Deployment/deploy/web-service
+cd modulo-08-despliegue/deploy/web-service
 
 # Copiar modelo desde batch-deploy
 uv run python copy_model.py
@@ -23,8 +23,8 @@ uv run python copy_model.py
 **Salida esperada:**
 ```
 INFO: Copiando modelo de batch-deploy a web-service...
-INFO: Modelo: nyc-taxi-duration-predictor v1
-INFO: RMSE: 7.3977
+INFO: Modelo: nyc-taxi-duration-predictor v2
+INFO: RMSE: 5.8866
 INFO: Modelo copiado exitosamente
 ```
 
@@ -39,7 +39,7 @@ uv run uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 INFO: Uvicorn running on http://0.0.0.0:8000
 INFO: Iniciando API...
-INFO: Modelo: nyc-taxi-duration-predictor v1
+INFO: Modelo: nyc-taxi-duration-predictor v2
 INFO: API lista para recibir requests
 INFO: Application startup complete.
 ```
@@ -48,42 +48,23 @@ INFO: Application startup complete.
 
 Abre tu navegador en: **http://localhost:8000**
 
-Deberías ver:
-```json
-{
-  "message": "NYC Taxi Duration Prediction API",
-  "version": "1.0.0",
-  "endpoints": {
-    "health": "/health",
-    "predict": "/predict",
-    "predict_batch": "/predict/batch",
-    "docs": "/docs"
-  }
-}
+Deberías ver la **interfaz web** para hacer predicciones directamente desde el navegador.
+
+Para verificar la API programáticamente:
+```bash
+curl http://localhost:8000/health
 ```
 
 ---
 
 ## Endpoints Disponibles
 
-### **1. GET /** - Información de la API
-**Propósito:** Verificar que la API está corriendo y ver endpoints disponibles
+### **1. GET /** - Interfaz Web
+**Propósito:** Interfaz HTML para hacer predicciones desde el navegador
 
 **URL:** `http://localhost:8000/`
 
-**Respuesta:**
-```json
-{
-  "message": "NYC Taxi Duration Prediction API",
-  "version": "1.0.0",
-  "endpoints": {
-    "health": "/health",
-    "predict": "/predict",
-    "predict_batch": "/predict/batch",
-    "docs": "/docs"
-  }
-}
-```
+**Respuesta:** Página HTML con formulario interactivo para ingresar datos de viajes y obtener predicciones.
 
 ---
 
@@ -98,8 +79,8 @@ Deberías ver:
   "status": "healthy",
   "model_loaded": true,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1",
-  "model_rmse": 7.3977
+  "model_version": "2",
+  "model_rmse": 5.8866
 }
 ```
 
@@ -136,7 +117,7 @@ Deberías ver:
   "trip_distance": 5.2,
   "predicted_duration_minutes": 18.45,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1"
+  "model_version": "2"
 }
 ```
 
@@ -185,7 +166,7 @@ Deberías ver:
       "trip_distance": 5.2,
       "predicted_duration_minutes": 18.45,
       "model_name": "nyc-taxi-duration-predictor",
-      "model_version": "1"
+      "model_version": "2"
     },
     {
       "PULocationID": 237,
@@ -193,7 +174,7 @@ Deberías ver:
       "trip_distance": 3.8,
       "predicted_duration_minutes": 14.23,
       "model_name": "nyc-taxi-duration-predictor",
-      "model_version": "1"
+      "model_version": "2"
     },
     {
       "PULocationID": 239,
@@ -201,12 +182,12 @@ Deberías ver:
       "trip_distance": 7.1,
       "predicted_duration_minutes": 22.67,
       "model_name": "nyc-taxi-duration-predictor",
-      "model_version": "1"
+      "model_version": "2"
     }
   ],
   "total": 3,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1"
+  "model_version": "2"
 }
 ```
 
@@ -246,8 +227,8 @@ curl http://localhost:8000/health
   "status": "healthy",
   "model_loaded": true,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1",
-  "model_rmse": 7.3977
+  "model_version": "2",
+  "model_rmse": 5.8866
 }
 ```
 
@@ -273,7 +254,7 @@ curl -X POST http://localhost:8000/predict \
   "trip_distance": 5.2,
   "predicted_duration_minutes": 18.45,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1"
+  "model_version": "2"
 }
 ```
 
@@ -361,8 +342,8 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health
   "status": "healthy",
   "model_loaded": true,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1",
-  "model_rmse": 7.3977
+  "model_version": "2",
+  "model_rmse": 5.8866
 }
 ```
 
@@ -406,7 +387,7 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health
   "trip_distance": 5.2,
   "predicted_duration_minutes": 18.45,
   "model_name": "nyc-taxi-duration-predictor",
-  "model_version": "1"
+  "model_version": "2"
 }
 ```
 
