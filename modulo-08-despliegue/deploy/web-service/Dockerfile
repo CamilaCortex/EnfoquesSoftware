@@ -13,7 +13,8 @@ RUN pip install --no-cache-dir \
     uvicorn[standard]>=0.49.0 \
     mlflow>=3.13.0 \
     xgboost>=3.2.0 \
-    scikit-learn>=1.4
+    scikit-learn>=1.4 \
+    prometheus-client>=0.21.0
 
 # Copiar código fuente
 COPY app.py ./

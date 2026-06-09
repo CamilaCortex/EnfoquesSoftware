@@ -4,9 +4,12 @@ API REST con FastAPI para predicción de duración de viajes de taxi.
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
 import logging
+import time
+
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
 from src.schemas import (
     TripRequest,
@@ -16,6 +19,17 @@ from src.schemas import (
     HealthResponse
 )
 from src.model_loader import model_loader
+from src.metrics import (
+    model_info,
+    predictions_total,
+    requests_total,
+    prediction_duration_seconds,
+    predicted_trip_duration_minutes,
+    trip_distance_histogram,
+    predictions_in_progress,
+    last_prediction_duration,
+    batch_size_histogram,
+)
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
@@ -45,6 +59,11 @@ async def startup_event():
     logging.info("Iniciando API...")
     try:
         model_loader.load()
+        model_info.info({
+            'name': model_loader.metadata['model_name'],
+            'version': str(model_loader.metadata['version']),
+            'rmse': str(model_loader.metadata['rmse'])
+        })
         logging.info("API lista para recibir requests")
     except Exception as e:
         logging.error("Error al cargar modelo: %s", e)
@@ -99,7 +118,12 @@ async def predict(trip: TripRequest):
     Returns:
         Predicción de duración en minutos
     """
+    predictions_in_progress.inc()
+    start_time = time.time()
     try:
+        # Registrar distancia recibida
+        trip_distance_histogram.observe(trip.trip_distance)
+        
         # Preparar features (PU_DO combinado)
         feature = {
             'PU_DO': f"{trip.PULocationID}_{trip.DOLocationID}",
@@ -108,22 +132,34 @@ async def predict(trip: TripRequest):
         
         # Predecir
         predictions = model_loader.predict([feature])
+        duration = round(predictions[0], 2)
+        
+        # Registrar métricas
+        prediction_duration_seconds.labels(endpoint='/predict').observe(time.time() - start_time)
+        predicted_trip_duration_minutes.observe(duration)
+        last_prediction_duration.set(duration)
+        predictions_total.labels(endpoint='/predict', status='success').inc()
+        requests_total.labels(method='POST', endpoint='/predict', status_code='200').inc()
         
         return PredictionResponse(
             PULocationID=trip.PULocationID,
             DOLocationID=trip.DOLocationID,
             trip_distance=trip.trip_distance,
-            predicted_duration_minutes=round(predictions[0], 2),
+            predicted_duration_minutes=duration,
             model_name=model_loader.metadata['model_name'],
             model_version=str(model_loader.metadata['version'])
         )
     
     except Exception as e:
+        predictions_total.labels(endpoint='/predict', status='error').inc()
+        requests_total.labels(method='POST', endpoint='/predict', status_code='500').inc()
         logging.error("Error en predicción: %s", e)
         raise HTTPException(
             status_code=500,
             detail=f"Error al hacer predicción: {str(e)}"
         ) from e
+    finally:
+        predictions_in_progress.dec()
 
 
 @app.post("/predict/batch", response_model=BatchPredictionResponse)
@@ -137,7 +173,16 @@ async def predict_batch(batch: BatchTripRequest):
     Returns:
         Lista de predicciones
     """
+    predictions_in_progress.inc()
+    start_time = time.time()
     try:
+        # Registrar tamaño del batch
+        batch_size_histogram.observe(len(batch.trips))
+        
+        # Registrar distancias recibidas
+        for trip in batch.trips:
+            trip_distance_histogram.observe(trip.trip_distance)
+        
         # Preparar features (PU_DO combinado)
         features = [
             {
@@ -149,6 +194,13 @@ async def predict_batch(batch: BatchTripRequest):
         
         # Predecir
         predictions = model_loader.predict(features)
+        
+        # Registrar métricas de predicción
+        prediction_duration_seconds.labels(endpoint='/predict/batch').observe(time.time() - start_time)
+        for pred in predictions:
+            predicted_trip_duration_minutes.observe(round(pred, 2))
+        predictions_total.labels(endpoint='/predict/batch', status='success').inc(len(batch.trips))
+        requests_total.labels(method='POST', endpoint='/predict/batch', status_code='200').inc()
         
         # Crear respuestas
         prediction_responses = [
@@ -171,11 +223,24 @@ async def predict_batch(batch: BatchTripRequest):
         )
     
     except Exception as e:
+        predictions_total.labels(endpoint='/predict/batch', status='error').inc()
+        requests_total.labels(method='POST', endpoint='/predict/batch', status_code='500').inc()
         logging.error("Error en predicción batch: %s", e)
         raise HTTPException(
             status_code=500,
             detail=f"Error al hacer predicción batch: {str(e)}"
         ) from e
+    finally:
+        predictions_in_progress.dec()
+
+
+@app.get("/metrics")
+async def metrics():
+    """Endpoint de métricas para Prometheus"""
+    return Response(
+        content=generate_latest(),
+        media_type=CONTENT_TYPE_LATEST
+    )
 
 
 if __name__ == "__main__":
@@ -213,3 +278,4 @@ if __name__ == "__main__":
 #   -H "Content-Type: application/json" \
 #   -d '{"PULocationID": 161, "DOLocationID": 236, "trip_distance": 1.5}'
 
+# http://localhost:8000/metrics
